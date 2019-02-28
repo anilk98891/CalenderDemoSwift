@@ -18,6 +18,7 @@
                 <outlet property="labelDescription" destination="lQq-CK-an5" id="7Ar-kL-Bgr"/>
                 <outlet property="labelTime" destination="TqB-3f-eMs" id="GRm-Hg-5EA"/>
                 <outlet property="labelTitle" destination="JZA-sX-JjX" id="fdr-Zc-Jj0"/>
+                <outlet property="viewCenter" destination="k7o-Iq-njt" id="x1o-pB-Rtn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -25,11 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="466"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xfd-B9-Dze">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="466"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7o-Iq-njt">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7o-Iq-njt">
                     <rect key="frame" x="56.5" y="107.5" width="262.5" height="251.5"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="9yF-D3-UZo">
@@ -115,12 +112,8 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="k7o-Iq-njt" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="45j-lf-yyT"/>
-                <constraint firstItem="k7o-Iq-njt" firstAttribute="width" secondItem="Xfd-B9-Dze" secondAttribute="width" multiplier="0.7" id="AuO-dh-CMU"/>
-                <constraint firstItem="Xfd-B9-Dze" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="FOm-ng-4kN"/>
-                <constraint firstAttribute="bottom" secondItem="Xfd-B9-Dze" secondAttribute="bottom" id="Jkl-aS-Iwi"/>
-                <constraint firstItem="Xfd-B9-Dze" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="bIa-KM-Lol"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Xfd-B9-Dze" secondAttribute="trailing" id="g5J-Qa-wZg"/>
                 <constraint firstItem="k7o-Iq-njt" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="jAE-U1-8p2"/>
+                <constraint firstItem="k7o-Iq-njt" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.7" id="nCO-Fr-L7T"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

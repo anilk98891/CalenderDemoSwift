@@ -75,6 +75,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="tpy-8D-pAZ"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonOutletTasks" destination="byA-4k-D5g" id="6an-Hj-NNJ"/>
                         <outlet property="viewMain" destination="lhC-uX-aNi" id="cVs-zv-NjX"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="ViewController" id="C7g-d9-rPv"/>
                         <segue destination="syw-gQ-azy" kind="show" identifier="TaskViewController" id="xKZ-GW-OuK"/>

@@ -10,6 +10,7 @@ import UIKit
 
 class AlertView: UIView {
     
+    @IBOutlet weak var viewCenter: UIView!
     @IBOutlet weak var imageViewCalendarPopUp: UIImageView!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var labelTime: UILabel!

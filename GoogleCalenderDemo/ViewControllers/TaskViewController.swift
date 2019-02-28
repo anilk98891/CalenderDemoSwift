@@ -39,8 +39,10 @@ class TaskViewController: UIViewController {
     }
     
     func eventInfo(indexpath : IndexPath) {
-        self.popUpView.frame =  CGRect.init(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        self.popUpView.center = self.view.center
+        
+        self.popUpView.frame =  CGRect.init(x: self.view.center.x, y: self.view.center.y, width: 0, height: 0)
+        self.popUpView.viewCenter.alpha = 0
+        self.popUpView.viewCenter.isHidden = true
         self.popUpView.completionBlock = { [weak self] () in
             guard let strongSelf = self else {return}
             strongSelf.popUpView.removeFromSuperview()
@@ -49,6 +51,15 @@ class TaskViewController: UIViewController {
         DispatchQueue.main.async {
             self.popUpView.updateViewTasks()
             self.addSubView()
+            UIView.animate(withDuration: 0.4) {
+                self.popUpView.frame =  CGRect.init(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+
+                self.popUpView.center = self.view.center
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.39, execute: {
+                    self.popUpView.viewCenter.isHidden = false
+                    self.popUpView.viewCenter.alpha = 1
+                })
+            }
         }
     }
     

@@ -11,6 +11,7 @@ import ObjectMapper
 import GoogleSignIn
 
 class CalenderViewController: UIViewController {
+    @IBOutlet weak var buttonOutletTasks: UIButton!
     @IBOutlet weak var viewMain: UIView!
     //MARK:- variables
     var calenderEvents = [calenderobj]()
@@ -43,9 +44,11 @@ class CalenderViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.viewMain.center.y -= self.viewMain.center.y + 100
+        buttonOutletTasks.isUserInteractionEnabled = true
     }
     
-    @IBAction func buttonActionEventsCalendar(_ sender: Any) {
+    @IBAction func buttonActionEventsCalendar(_ sender: UIButton) {
+        sender.isUserInteractionEnabled = false
         GIDSignIn.sharedInstance().signIn()
     }
     
@@ -140,7 +143,6 @@ extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         
         if (error == nil) {
-            
             let userId = user.userID
             print(userId ?? "Not found")
             let token = user.authentication.accessToken
@@ -151,6 +153,7 @@ extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
             self.performSegue(withIdentifier: "TaskViewController", sender: self)
         } else {
             print("\(error.localizedDescription)")
+            buttonOutletTasks.isUserInteractionEnabled = true
         }
     }
     
