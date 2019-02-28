@@ -11,16 +11,15 @@ import ObjectMapper
 import GoogleSignIn
 
 class CalenderViewController: UIViewController {
+    @IBOutlet weak var viewMain: UIView!
     //MARK:- variables
     var calenderEvents = [calenderobj]()
-    let workerQueue = DispatchQueue.init(label: "com.worker", attributes: .concurrent)
     
     //MARK:- View Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
-        
         self.customRightBarButton(image: UIImage.init(named: "error") ?? UIImage())
     }
     
@@ -34,6 +33,21 @@ class CalenderViewController: UIViewController {
             })
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        self.viewMain.center.y -= self.viewMain.center.y + 100
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+                self.viewMain.center = self.view.center
+            })
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.viewMain.center.y -= self.viewMain.center.y + 100
+    }
+    
+    @IBAction func buttonActionEventsCalendar(_ sender: Any) {
+        GIDSignIn.sharedInstance().signIn()
+    }
     
     @IBAction func buttonActionCalender(_ sender: Any) {
         self.performSegue(withIdentifier: "ViewController", sender: self)
@@ -41,58 +55,21 @@ class CalenderViewController: UIViewController {
     
     @objc override func btnDoneClicked(sender:UIButton)
     { //Dne Button
-        GIDSignIn.sharedInstance().signIn()
+        exit(0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ViewController"{
             let destination = segue.destination as! ViewController
             destination.calenderEvents = self.calenderEvents
+            destination.title = "Calendar list"
+        } else if segue.identifier == "TaskViewController"{
+            let destination = segue.destination as! TaskViewController
+            destination.title = "Alerts list"
         }
     }
-    
 }
-extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
-    
-    //MARK:- Google Delegates
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        
-        if (error == nil) {
-            
-            let userId = user.userID
-            print(userId ?? "Not found")
-            let token = user.authentication.accessToken
-            UserDefaults.standard.setValue(token, forKey: "token")
-            print(token ?? "")
-            //            let fullName : String = user.profile.name
-            //            let gmailEmail : String = user.profile.email
-            //
-            // Hit webServices method for google login
-            //self.apicall()
-            
-        } else {
-            print("\(error.localizedDescription)")
-        }
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        
-    }
-    
-    // pressed the Sign In button
-    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-        print(signIn.clientID)
-    }
-    
-    // Present a view that prompts the user to sign in with Google
-    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
-        self.present(viewController, animated: true, completion: nil)
-    }
-    
-    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
+
 //MARK:- Google calender
 extension CalenderViewController {
     func storeDataToCalender() {
@@ -136,8 +113,8 @@ extension CalenderViewController {
                     LocalNotificationTrigger.shared.deleteAllNotification { (success) in
                         if success{
                             for i in self.calenderEvents {
-                                self.workerQueue.async {
-                                   CalenderAuth.shared.removeAllEventsMatchingPredicate(dict: i, completion: { success in
+                                workerQueue.async {
+                                    CalenderAuth.shared.removeAllEventsMatchingPredicate(dict: i, completion: { success in
                                         if success{
                                             CalenderAuth.shared.insertEvent( dict: i)
                                         }
@@ -157,13 +134,49 @@ extension CalenderViewController {
     }
 }
 
+extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
+    
+    //MARK:- Google Delegates
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        if (error == nil) {
+            
+            let userId = user.userID
+            print(userId ?? "Not found")
+            let token = user.authentication.accessToken
+            UserDefaults.standard.setValue(token, forKey: "token")
+            print(token ?? "")
+            //            let fullName : String = user.profile.name
+            UserDefaults.standard.setValue(token, forKey: userDefaultsConstants.authToken)
+            self.performSegue(withIdentifier: "TaskViewController", sender: self)
+        } else {
+            print("\(error.localizedDescription)")
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        
+    }
+    
+    // pressed the Sign In button
+    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+        print(signIn.clientID)
+    }
+    
+    // Present a view that prompts the user to sign in with Google
+    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
 //MARK:- Api Call
 extension CalenderViewController{
     func apiCallenderSync(compeltion: @escaping ()->()) {
-        //let url = ""
-        let appUrl = BaseURL //+ url
         
-        HttpClient.getRequest(urlString: appUrl,loaderEnable: true, successBlock: { (response) in
+        HttpClient.getRequest(urlString: GetApiURL.kGetEvents.typeURL(), header: nil,loaderEnable: true, successBlock: { (response) in
             
             if let webServiceData = response as? Dictionary<String,Any>{
                 if let data = webServiceData["items"] as? [Dictionary<String,Any>]{
@@ -177,25 +190,7 @@ extension CalenderViewController{
                 }
             }
         }) { (error) in
-            // self.showAlert(withTitle: constants.appString.kAppName, message: error)
+            self.showAlert(withTitle: "App", message: error)
         }
     }
-    
-    //    func apicall(){
-    //        let url = "https://www.googleapis.com/calendar/v3/calendars/busywizzy1@gmail.com/events/watch"
-    //        let appUrl = url
-    //        let params = ["id":"c887ce64-adc8-4007-952c-a172c376b30d",
-    //            "type":"web_hook",
-    //            "address":"http://busywizzy.com/calender/notifications.php"] as [String : Any]
-    //
-    //        HttpClient.postRequest(urlString: appUrl, requestData: params, successBlock: { (response) in
-    //
-    //            if let webServiceData = response as? Dictionary<String,Any>{
-    //
-    //            }
-    //        }) { (error) in
-    //            Indicator.sharedInstance.hideIndicator()
-    ////            self.showAlert(withTitle: constants.appString.kAppName, message: error)
-    //        }
-    //    }
 }

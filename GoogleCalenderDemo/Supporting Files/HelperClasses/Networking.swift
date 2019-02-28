@@ -15,12 +15,11 @@ class HttpClient
     
     static var headers: [String:String]
     {
-        var dict = ["Content-Type": "application/json"]
+        var dict = ["":""]
         
-        if let token = UserDefaults.standard.value(forKey: "token") as? String
+        if let token = UserDefaults.standard.value(forKey: userDefaultsConstants.authToken) as? String
         {
-            dict = ["Authorization":"Bearer " + token, "Content-Type": "application/json"]
-            
+            dict = ["Authorization":"OAuth " + token, "Content-Type": "application/json"]
         }
         return dict
     }
@@ -30,12 +29,12 @@ class HttpClient
         //        var str = "\"filename.jpg\""
         //        str = str.replacingOccurrences(of: "\", with: "")
         let dict = ["Content-Type": "application/octet-stream"]
-//        let str = "file; filename=\"filename.jpg\""
+        //        let str = "file; filename=\"filename.jpg\""
         
         return dict
     }
     
-    class func getRequest( urlString: String,loaderEnable : Bool? = true,  successBlock :@escaping (_ response :AnyObject)->Void, errorBlock:@escaping (_ errorMessage :String)->Void
+    class func getRequest( urlString: String,header : Bool?,loaderEnable : Bool? = true,  successBlock :@escaping (_ response :AnyObject)->Void, errorBlock:@escaping (_ errorMessage :String)->Void
         )
     {
         print(headers)
@@ -47,7 +46,7 @@ class HttpClient
         let url = URL(string: urlString)!
         
         var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = nil
+        request.allHTTPHeaderFields = header == nil ? nil : headers
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, urlResponse, error) in
@@ -91,9 +90,7 @@ class HttpClient
             }
         }
         task.resume()
-        
     }
-    
     
     
     class func postRequest( urlString: String, requestData: [String:Any]?, successBlock: @escaping (_ response: AnyObject)->Void, errorBlock: @escaping (_ errorMessage :String)->Void )
@@ -309,9 +306,6 @@ class HttpClient
     
     class func uploadRequest( urlString: String, requestData: [String:Any]?, image: UIImage, successBlock: @escaping (_ response: AnyObject)->Void, errorBlock: @escaping (_ errorMessage :String)->Void )
     {
-        //        guard let imageData = UIImageJPEGRepresentation(image, 1) else {
-        //            return
-        //        }
         
         var request = URLRequest(url: URL(string: urlString)!)
         request.allHTTPHeaderFields = headers
@@ -322,34 +316,6 @@ class HttpClient
             request.httpBody = try! JSONSerialization.data(withJSONObject: requestData as Any, options: .prettyPrinted)
         }
         
-        //        Alamofire.upload(multipartFormData: { (multipartFormData) in
-        //            multipartFormData.append(imageData, withName: "image", fileName: "file1.jpeg", mimeType: "image/jpeg")
-        //        }, with: request) { (result) in
-        //            print(result)//MultipartFormDataEncodingResult
-        //
-        //            switch result {
-        //            case .success(let upload, _, _):
-        //
-        //                upload.uploadProgress(closure: { (Progress) in
-        //                    print("Upload Progress: \(Progress.fractionCompleted)")
-        //                })
-        //
-        //                upload.responseJSON { response in
-        //
-        //                    if let json = response.result.value {
-        //                        DispatchQueue.main.async {
-        //                            successBlock(json as AnyObject)
-        //                        }
-        //                    }
-        //                }
-        //
-        //            case .failure(let encodingError):
-        //                let msg = ErrorUtility.errorMessageFor(response: nil, error: encodingError as NSError?)
-        //                DispatchQueue.main.async {
-        //                    errorBlock(msg)
-        //                }
-        //            }
-        //        }
     }
     
     class func uploadpostRequest( urlString: String, image: UIImage, successBlock: @escaping (_ response: AnyObject)->Void, errorBlock: @escaping (_ errorMessage :String)->Void )

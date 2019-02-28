@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.uiComponents()
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     private func uiComponents() {
@@ -57,6 +55,9 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         cell?.selectionStyle = .none
+        let viewBG = cell?.viewWithTag(9)
+        viewBG?.backgroundColor = UIColor.init().getBGEventColor()
+        
         let labelDate = cell?.viewWithTag(10) as? UILabel
         labelDate?.text = calenderEvents[indexPath.row].updated?.start?.DateFromString(format: DateFormat.dateTimeUTC, convertedFormat: DateFormat.dateMonth)
         let labelTime = cell?.viewWithTag(11) as? UILabel

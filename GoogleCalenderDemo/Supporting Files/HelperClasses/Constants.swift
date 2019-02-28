@@ -9,13 +9,37 @@
 import Foundation
 typealias completionHandlerButton = () -> ()
 
-enum calenderApi :String {
-    case kapiKey = "AIzaSyCC_NIUvuKqEMomlTNh7KNS-TgT1t7WK98"
+enum listType: String {
+    case kEvents = "events"
+    case kTasks = "tasks"
 }
+struct userDefaultsConstants {
+    static var authToken = "googleToken"
+}
+
+let workerQueue = DispatchQueue.init(label: "com.worker", attributes: .concurrent)
 
 var defaultTime = TimeInterval(2 * 60 * 60)
 var calenderName = "Church Calender"
 var calenderAlarm = "com.churuch.alarm"
 
 var googleApiKey = "AIzaSyCC_NIUvuKqEMomlTNh7KNS-TgT1t7WK98"
-let BaseURL = "https://www.googleapis.com/calendar/v3/calendars/busywizzy1@gmail.com/events?key=\(googleApiKey)";
+var baseURL = "https://www.googleapis.com/"
+
+enum GetApiURL {
+    case kGetEvents
+    case kGetTasks
+    case kGetSubTasks
+    
+    func typeURL()-> String {
+        let taskID = CalenderAuth.shared.taskId
+        switch self {
+        case .kGetEvents:
+            return baseURL + "calendar/v3/calendars/busywizzy1@gmail.com/events?key=\(googleApiKey)"
+        case .kGetTasks:
+            return baseURL + "tasks/v1/users/@me/lists?pp=1&key=\(googleApiKey)"
+        case .kGetSubTasks:
+            return baseURL + "tasks/v1/lists/\(taskID)/tasks?&key=\(googleApiKey)"
+        }
+    }
+}

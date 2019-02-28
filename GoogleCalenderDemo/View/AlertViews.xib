@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertView" customModule="GoogleCalenderDemo" customModuleProvider="target">
             <connections>
                 <outlet property="buttOnCancel" destination="Ooj-5z-8Wd" id="zpg-VP-gea"/>
+                <outlet property="imageViewCalendarPopUp" destination="ixR-eC-YjD" id="Bpz-te-15c"/>
                 <outlet property="labelDate" destination="nm0-h9-amd" id="MkU-Mh-rDj"/>
                 <outlet property="labelDescription" destination="lQq-CK-an5" id="7Ar-kL-Bgr"/>
                 <outlet property="labelTime" destination="TqB-3f-eMs" id="GRm-Hg-5EA"/>
@@ -68,9 +69,9 @@
                             </subviews>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ooj-5z-8Wd">
-                            <rect key="frame" x="103.5" y="201.5" width="55" height="40"/>
+                            <rect key="frame" x="93.5" y="201.5" width="75" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="55" id="A5m-mD-4WI"/>
+                                <constraint firstAttribute="width" constant="75" id="A5m-mD-4WI"/>
                                 <constraint firstAttribute="height" constant="40" id="AJv-hY-r4R"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -132,6 +133,6 @@
         </view>
     </objects>
     <resources>
-        <image name="calendar" width="16" height="16"/>
+        <image name="calendar" width="48" height="48"/>
     </resources>
 </document>

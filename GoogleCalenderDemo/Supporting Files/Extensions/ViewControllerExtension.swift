@@ -9,6 +9,18 @@
 import Foundation
 import UIKit
 extension UIViewController{
+    func showAlert(withTitle title: String, message: String, completion: (() -> Void)? = nil)
+    {
+        let okAction = UIAlertAction(title: "Ok", style: .default){ (action) in
+            completion?()
+        }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert);
+        alertController.addAction(okAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     func showOkAndCancelAlert(withTitle title: String,buttonTitle :String, message: String, _ okAction: @escaping ()->Void)
     {
         let ok = UIAlertAction(title: buttonTitle, style: .default){ (action) in

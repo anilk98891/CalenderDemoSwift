@@ -1,0 +1,4 @@
+os: OSX
+osx_image: xcode10.1
+language: swift
+script: xcodebuild clean build test -workspace GoogleCalenderDemo.xcworkspace -scheme "GoogleCalenderDemo" -sdk iphonesimulator -destination "platform:iOS Simulator, id:678D2E97-E8C6-4ED2-9CC3-3E8C28FEA0E8, OS:12.1, name:iPhone XS" ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO

@@ -10,6 +10,7 @@ import UIKit
 
 class AlertView: UIView {
     
+    @IBOutlet weak var imageViewCalendarPopUp: UIImageView!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelDate: UILabel!
@@ -17,6 +18,8 @@ class AlertView: UIView {
     @IBOutlet weak var buttOnCancel: UIButton!
     var completionBlock : completionHandlerButton?
     var calenderEvents : calenderobj?
+    var selectionType : listType?
+    var calendarTasks : SubTask?
     
     //    MARK:- view life cycle
     override init(frame: CGRect) {
@@ -45,7 +48,16 @@ class AlertView: UIView {
         self.addSubview(view);
     }
     
+    func updateViewTasks() {
+        imageViewCalendarPopUp.image = UIImage.init(named: "events")
+        self.labelDate.text = calendarTasks?.updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dateNow)
+        self.labelTime.text = calendarTasks?.updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.timeAmPM)
+        self.labelTitle.text = calendarTasks?.title
+        self.labelDescription.text = calendarTasks?.notes
+    }
+    
     func updateView() {
+        imageViewCalendarPopUp.image = UIImage.init(named: "calendar")
         self.labelDate.text = calenderEvents?.updated?.start?.DateFromString(format: DateFormat.dateTimeUTC, convertedFormat: DateFormat.dateNow)
         self.labelTime.text = calenderEvents?.updated?.start?.DateFromString(format: DateFormat.dateTimeUTC, convertedFormat: DateFormat.timeAmPM)
         self.labelTitle.text = calenderEvents?.summary
