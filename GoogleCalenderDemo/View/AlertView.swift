@@ -19,7 +19,6 @@ class AlertView: UIView {
     @IBOutlet weak var buttOnCancel: UIButton!
     var completionBlock : completionHandlerButton?
     var calenderEvents : calenderobj?
-    var selectionType : listType?
     var calendarTasks : SubTask?
     
     //    MARK:- view life cycle
@@ -51,8 +50,9 @@ class AlertView: UIView {
     
     func updateViewTasks() {
         imageViewCalendarPopUp.image = UIImage.init(named: "events")
-        self.labelDate.text = calendarTasks?.updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dateNow)
-        self.labelTime.text = calendarTasks?.updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.timeAmPM)
+        let taskdate = calendarTasks?.due ?? calendarTasks?.updated ?? ""
+        self.labelDate.text = taskdate.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dateNow)
+        self.labelTime.isHidden = true
         self.labelTitle.text = calendarTasks?.title
         self.labelDescription.text = calendarTasks?.notes
     }

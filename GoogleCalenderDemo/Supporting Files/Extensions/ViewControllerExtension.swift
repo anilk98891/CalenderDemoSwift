@@ -55,4 +55,23 @@ extension UIViewController{
     @objc func btnDoneClicked(sender:UIButton)
     { //Dne Button
     }
+    
+    func getLastSyncTime(completion:(Bool)->()){
+        if let timelastsync = UserDefaults.standard.object(forKey: userDefaultsConstants.kLastSyncTime) as? Date {
+            if Int(self.timeDiffrence(time1: timelastsync, time2:Date()))! > appconfig.kSyncTime.rawValue{
+                completion(true) //more than 1 hrs
+            } else{
+                completion(false) //less than 1hrs
+            }
+        } else {
+            completion(true)
+        }
+    }
+    
+    func timeDiffrence (time1 : Date,time2 : Date) -> String {
+        let difference = Calendar.current.dateComponents([.hour, .minute], from: time1, to: time2)
+        let hoursInmint = difference.hour ?? 0
+        let time = hoursInmint * 60 + difference.minute!
+        return "\(time)"
+    }
 }

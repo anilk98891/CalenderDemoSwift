@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3602FC7F428BE8A3C1539978 /* Pods_GoogleCalenderDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4020605E2CD628AA587A87B0 /* Pods_GoogleCalenderDemo.framework */; };
+		3A48F35922268DE5000579BF /* UIColorEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48F35822268DE5000579BF /* UIColorEx.swift */; };
+		3A48F35B22270715000579BF /* TasksDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48F35A22270715000579BF /* TasksDataModel.swift */; };
+		3A48F35D22271A14000579BF /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48F35C22271A14000579BF /* TaskViewController.swift */; };
+		3A6745CD22310129008FB3D6 /* client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A6745CC22310128008FB3D6 /* client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist */; };
 		3A8ACDB022226FD500E69448 /* GoogleCalenderDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8ACDAF22226FD500E69448 /* GoogleCalenderDemoTests.swift */; };
-		3A8ACDB82222702400E69448 /* CalenderTestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8ACDB72222702400E69448 /* CalenderTestClass.swift */; };
 		3A8BFED1221ABB2F00857E6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8BFED0221ABB2F00857E6A /* AppDelegate.swift */; };
 		3A8BFED3221ABB2F00857E6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8BFED2221ABB2F00857E6A /* ViewController.swift */; };
 		3A8BFED6221ABB2F00857E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A8BFED4221ABB2F00857E6A /* Main.storyboard */; };
@@ -26,7 +29,6 @@
 		3A8BFEF3221AE8DE00857E6A /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8BFEF2221AE8DE00857E6A /* CalenderViewController.swift */; };
 		3A8BFEF5221AEA2700857E6A /* CalenderDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8BFEF4221AEA2700857E6A /* CalenderDataModel.swift */; };
 		3A8BFEF7221AF32D00857E6A /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8BFEF6221AF32C00857E6A /* NSDate.swift */; };
-		3A8BFF01221BF40500857E6A /* client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A8BFF00221BF40400857E6A /* client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist */; };
 		3AF618D6221E7E6D00CE71FF /* CalenderAutorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF618D5221E7E6D00CE71FF /* CalenderAutorization.swift */; };
 		3AF618D8221FCE6700CE71FF /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF618D7221FCE6600CE71FF /* LocalNotification.swift */; };
 /* End PBXBuildFile section */
@@ -43,10 +45,13 @@
 
 /* Begin PBXFileReference section */
 		2FC34AF2BB21F56A93992EFA /* Pods-GoogleCalenderDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleCalenderDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoogleCalenderDemo/Pods-GoogleCalenderDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		3A48F35822268DE5000579BF /* UIColorEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorEx.swift; sourceTree = "<group>"; };
+		3A48F35A22270715000579BF /* TasksDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksDataModel.swift; sourceTree = "<group>"; };
+		3A48F35C22271A14000579BF /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		3A6745CC22310128008FB3D6 /* client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist"; sourceTree = "<group>"; };
 		3A8ACDAD22226FD500E69448 /* GoogleCalenderDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoogleCalenderDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8ACDAF22226FD500E69448 /* GoogleCalenderDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalenderDemoTests.swift; sourceTree = "<group>"; };
 		3A8ACDB122226FD500E69448 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3A8ACDB72222702400E69448 /* CalenderTestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderTestClass.swift; sourceTree = "<group>"; };
 		3A8BFECD221ABB2F00857E6A /* GoogleCalenderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleCalenderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8BFED0221ABB2F00857E6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A8BFED2221ABB2F00857E6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +71,6 @@
 		3A8BFEF4221AEA2700857E6A /* CalenderDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderDataModel.swift; sourceTree = "<group>"; };
 		3A8BFEF6221AF32C00857E6A /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
 		3A8BFEFF221BDEAF00857E6A /* GoogleCalenderDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GoogleCalenderDemo.entitlements; sourceTree = "<group>"; };
-		3A8BFF00221BF40400857E6A /* client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist"; sourceTree = "<group>"; };
 		3AF618D5221E7E6D00CE71FF /* CalenderAutorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderAutorization.swift; sourceTree = "<group>"; };
 		3AF618D7221FCE6600CE71FF /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4020605E2CD628AA587A87B0 /* Pods_GoogleCalenderDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleCalenderDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,14 +113,6 @@
 			path = GoogleCalenderDemoTests;
 			sourceTree = "<group>";
 		};
-		3A8ACDB92222713800E69448 /* TestCase */ = {
-			isa = PBXGroup;
-			children = (
-				3A8ACDB72222702400E69448 /* CalenderTestClass.swift */,
-			);
-			path = TestCase;
-			sourceTree = "<group>";
-		};
 		3A8BFEC4221ABB2F00857E6A = {
 			isa = PBXGroup;
 			children = (
@@ -141,14 +137,14 @@
 			isa = PBXGroup;
 			children = (
 				3A8BFEFF221BDEAF00857E6A /* GoogleCalenderDemo.entitlements */,
-				3A8ACDB92222713800E69448 /* TestCase */,
 				3A8BFEFC221BD93C00857E6A /* Model */,
 				3A8BFEFB221BD93100857E6A /* View */,
 				3A8BFEF8221BD8EC00857E6A /* ViewControllers */,
 				3A8BFEFD221BD97800857E6A /* Supporting Files */,
 				3A8BFEFE221BD99300857E6A /* StoryBoards */,
+				3A8BFED0221ABB2F00857E6A /* AppDelegate.swift */,
 				3A8BFED7221ABB3100857E6A /* Assets.xcassets */,
-				3A8BFF00221BF40400857E6A /* client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist */,
+				3A6745CC22310128008FB3D6 /* client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist */,
 				3A8BFEDC221ABB3100857E6A /* Info.plist */,
 			);
 			path = GoogleCalenderDemo;
@@ -159,6 +155,7 @@
 			children = (
 				3A8BFEF2221AE8DE00857E6A /* CalenderViewController.swift */,
 				3A8BFED2221ABB2F00857E6A /* ViewController.swift */,
+				3A48F35C22271A14000579BF /* TaskViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -169,6 +166,7 @@
 				3A8BFEF6221AF32C00857E6A /* NSDate.swift */,
 				3A8BFEE6221AC7C300857E6A /* ViewExtension.swift */,
 				3A8BFEEA221AD34500857E6A /* ViewControllerExtension.swift */,
+				3A48F35822268DE5000579BF /* UIColorEx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -199,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				3A8BFEF4221AEA2700857E6A /* CalenderDataModel.swift */,
+				3A48F35A22270715000579BF /* TasksDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -208,7 +207,6 @@
 			children = (
 				3A8BFEF9221BD90700857E6A /* Extensions */,
 				3A8BFEFA221BD91B00857E6A /* HelperClasses */,
-				3A8BFED0221ABB2F00857E6A /* AppDelegate.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -333,8 +331,8 @@
 				3A8BFEDB221ABB3100857E6A /* LaunchScreen.storyboard in Resources */,
 				3A8BFEE3221AC40300857E6A /* AlertViews.xib in Resources */,
 				3A8BFED8221ABB3100857E6A /* Assets.xcassets in Resources */,
-				3A8BFF01221BF40500857E6A /* client_290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com.plist in Resources */,
 				3A8BFED6221ABB2F00857E6A /* Main.storyboard in Resources */,
+				3A6745CD22310129008FB3D6 /* client_290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +406,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A8ACDB82222702400E69448 /* CalenderTestClass.swift in Sources */,
 				3A8ACDB022226FD500E69448 /* GoogleCalenderDemoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,9 +414,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A48F35B22270715000579BF /* TasksDataModel.swift in Sources */,
 				3A8BFEF3221AE8DE00857E6A /* CalenderViewController.swift in Sources */,
 				3A8BFEE9221ACD5200857E6A /* Constants.swift in Sources */,
 				3A8BFEF5221AEA2700857E6A /* CalenderDataModel.swift in Sources */,
+				3A48F35922268DE5000579BF /* UIColorEx.swift in Sources */,
 				3A8BFED3221ABB2F00857E6A /* ViewController.swift in Sources */,
 				3AF618D8221FCE6700CE71FF /* LocalNotification.swift in Sources */,
 				3A8BFEEB221AD34500857E6A /* ViewControllerExtension.swift in Sources */,
@@ -429,6 +428,7 @@
 				3A8BFEE5221AC60500857E6A /* AlertView.swift in Sources */,
 				3A8BFEED221AE53000857E6A /* Networking.swift in Sources */,
 				3A8BFEF1221AE70200857E6A /* ErrorUtility.swift in Sources */,
+				3A48F35D22271A14000579BF /* TaskViewController.swift in Sources */,
 				3A8BFEF7221AF32D00857E6A /* NSDate.swift in Sources */,
 				3A8BFEEF221AE57100857E6A /* Indicator.swift in Sources */,
 			);
@@ -637,7 +637,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.busywizzy.GoogleCalender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -658,7 +658,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.busywizzy.GoogleCalender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

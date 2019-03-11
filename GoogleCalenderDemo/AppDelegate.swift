@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // Initialize sign-in
-        GIDSignIn.sharedInstance().clientID = "290826560562-9j8fl9h2o1pu67ldpv3v4ejsaqhrftr0.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance()?.scopes = ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/tasks.readonly"]
+        GIDSignIn.sharedInstance().clientID = "290826560562-tdgvdtt0i1bfhp71egdvm7umalfb6mbo.apps.googleusercontent.com"
         return true
     }
     

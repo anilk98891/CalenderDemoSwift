@@ -25,13 +25,42 @@ class TaskViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            self.apiCallenderTaskSync {
-                for (index,_) in self.calendarTasks.enumerated(){
-                    CalenderAuth.shared.taskId = self.calendarTasks[index].id ?? ""
-                    self.apiCallenderSubTaskSync(index: index) {
-                        print(self.calendarTasks)
-                        self.tableView.reloadData()
-                        //                        self.storeDataToCalender()
+            self.needFetchGoogleToken()
+        }
+    }
+    
+    func addSubView() {
+        self.view.addSubview(self.popUpView)
+        self.view.bringSubviewToFront(popUpView)
+    }
+    
+    func needFetchGoogleToken() {
+        self.getLastSyncTime { (success) in
+            if success{ // more than 1 hrs
+                self.getTaskGoogleApi()
+            } else { //less than 1hrs
+                self.getTaskApi()
+            }
+        }
+    }
+    
+    func getTaskGoogleApi() {
+        self.apiClientAuthToken { success in
+            if success {//get auth token
+                self.getTaskApi()
+            }
+        }
+    }
+    
+    func getTaskApi() {
+        self.apiCallenderTaskSync {
+            for (index,_) in self.calendarTasks.enumerated(){
+                CalenderAuth.shared.taskId = self.calendarTasks[index].id ?? ""
+                self.apiCallenderSubTaskSync(index: index) {
+                    print(self.calendarTasks)
+                    self.tableView.reloadData()
+                    if self.calendarTasks.count - 1 == index{
+                        self.storeDataToCalender()
                     }
                 }
             }
@@ -53,7 +82,7 @@ class TaskViewController: UIViewController {
             self.addSubView()
             UIView.animate(withDuration: 0.4) {
                 self.popUpView.frame =  CGRect.init(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-
+                
                 self.popUpView.center = self.view.center
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.39, execute: {
                     self.popUpView.viewCenter.isHidden = false
@@ -61,11 +90,6 @@ class TaskViewController: UIViewController {
                 })
             }
         }
-    }
-    
-    func addSubView() {
-        self.view.addSubview(self.popUpView)
-        self.view.bringSubviewToFront(popUpView)
     }
     
 }
@@ -84,9 +108,10 @@ extension TaskViewController : UITableViewDelegate, UITableViewDataSource
         cell?.selectionStyle = .none
         
         let labelDate = cell?.viewWithTag(10) as? UILabel
-        labelDate?.text = calendarTasks[indexPath.section].subTask[indexPath.row].updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dateMonth)
+        let dateTask = calendarTasks[indexPath.section].subTask[indexPath.row].due ?? calendarTasks[indexPath.section].subTask[indexPath.row].updated ?? ""
+        labelDate?.text = dateTask.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dateMonth)
         let labelTime = cell?.viewWithTag(11) as? UILabel
-        labelTime?.text = calendarTasks[indexPath.section].subTask[indexPath.row].updated?.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dayDate)
+        labelTime?.text = dateTask.DateFromString(format: DateFormat.dateTimeUTC2, convertedFormat: DateFormat.dayName)
         let labelTitle = cell?.viewWithTag(12) as? UILabel
         labelTitle?.text = calendarTasks[indexPath.section].subTask[indexPath.row].title
         return cell!
@@ -142,78 +167,86 @@ extension TaskViewController : UITableViewDelegate, UITableViewDataSource
     }
 }
 
-//extension TaskViewController {
-//    func storeDataToCalender() {
-//        switch CalenderAuth.shared.authorized() {
-//        case .authorized:
-//            self.insertOrDeleteToCalender()
-//            break
-//        case .denied:
-//            self.showOkAndCancelAlert(withTitle: "Google Calender", buttonTitle: "Settings", message: "You need to allow calender setting from app settings") {
-//                let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
-//                UIApplication.shared.open(settingsUrl)
-//            }
-//            break
-//        case .notDetermined:
-//            CalenderAuth.shared.eventStore.requestAccess(to: .event, completion:
-//                {(granted: Bool, error: Error?) -> Void in
-//                    if granted {
-//                        self.insertOrDeleteToCalender()
-//                    } else {
-//                        print("Access denied")
-//                        self.showOkAndCancelAlert(withTitle: "Google Calender", buttonTitle: "Ok", message: "You denied the calender setting want to enable again go to app settings") {
-//                        }
-//                    }
-//            })
-//            break
-//        default:
-//            break
-//        }
-//    }
-//
-//    func insertOrDeleteToCalender() {
-//        CalenderAuth.shared.createAppCalendar(completion: { (success) in
-//            if success{
-//                LocalNotificationTrigger.shared.authorized{ (success) in
-//                    if !success{
-//                        self.showOkAndCancelAlert(withTitle: "App", buttonTitle: "Settings", message: "Your Notification not be allowed allow them.", {
-//                            let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
-//                            UIApplication.shared.open(settingsUrl)
-//                        })
-//                    }
-//                    LocalNotificationTrigger.shared.deleteAllNotification { (success) in
-//                        if success{
-//                            for i in self.calendarTasks {
-//                                for j in i.subTask{
-//                                    workerQueue.async {
-//                                        CalenderAuth.shared.removeAllEventsMatchingPredicate(dict: nil, dictTasks: j, completion: { success in
-//                                            if success{
-//                                                CalenderAuth.shared.insertEvent( dict: nil, dictTask: j)
-//                                            }
-//                                            else {
-//
-//                                            }
-//                                        })
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            } else {
-//                print("calendar not created")
-//            }
-//        })
-//    }
-//}
-extension TaskViewController{
+extension TaskViewController {
+    func storeDataToCalender() {
+        switch CalenderAuth.shared.authorized() {
+        case .authorized:
+            self.insertOrDeleteToCalender()
+            break
+        case .denied:
+            self.showOkAndCancelAlert(withTitle: "Google Calender", buttonTitle: "Settings", message: "You need to allow calender setting from app settings") {
+                let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
+                UIApplication.shared.open(settingsUrl)
+            }
+            break
+        case .notDetermined:
+            CalenderAuth.shared.eventStore.requestAccess(to: .event, completion:
+                {(granted: Bool, error: Error?) -> Void in
+                    if granted {
+                        self.insertOrDeleteToCalender()
+                    } else {
+                        print("Access denied")
+                        self.showOkAndCancelAlert(withTitle: "Google Calender", buttonTitle: "Ok", message: "You denied the calender setting want to enable again go to app settings") {
+                        }
+                    }
+            })
+            break
+        default:
+            break
+        }
+    }
+    func insertOrDeleteToCalender() {
+        CalenderAuth.shared.createAppCalendarTask(completion: { (success) in
+            if success{
+                LocalNotificationTrigger.shared.authorized{ (success) in
+                    if !success{
+                        self.showOkAndCancelAlert(withTitle: appConstants.KAppName.rawValue, buttonTitle: "Settings", message: "Your Notification not be allowed allow them.", {
+                            let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
+                            UIApplication.shared.open(settingsUrl)
+                        })
+                    }
+                    LocalNotificationTrigger.shared.deleteAllNotification { (success) in
+                        if success{
+                            for i in self.calendarTasks {
+                                for j in i.subTask{
+                                    workerQueue.async {
+                                        CalenderAuth.shared.removeAllTasksMatchingPredicateTask(dict: j, completion: { success in
+                                            if success{
+                                                CalenderAuth.shared.insertTask( dict: j)
+                                            }
+                                            else {
+                                                
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("calendar not created")
+            }
+        })
+    }
+}
+extension TaskViewController {
+    func apiClientAuthToken(compeltion: @escaping (Bool)->()) {
+        let methodParameters = ["grant_type" : "refresh_token","client_id": googleInfoKeys.googleClientId.rawValue,"client_secret":googleInfoKeys.googleClientSecret.rawValue,"refresh_token": googleInfoKeys.refreshToken.rawValue] as [String : Any]
+        HttpClient.postRequest(urlString: GetApiURL.kAuthGoogle.typeURL(), requestData: methodParameters,headerRequired: false,successBlock: { (success) in
+            print(success)
+            UserDefaults.standard.setValue(success["access_token"] ?? "", forKey: userDefaultsConstants.authClientAccessToken)
+            UserDefaults.standard.setValue(Date(), forKey: userDefaultsConstants.kLastSyncTime)
+            compeltion(true)
+        }) { (error) in
+            print(error)
+        }
+    }
     func apiCallenderTaskSync(compeltion: @escaping ()->()) {
         HttpClient.getRequest(urlString: GetApiURL.kGetTasks.typeURL(), header: true,loaderEnable: true, successBlock: { (response) in
             
             if let webServiceData = response as? Dictionary<String,Any>{
                 if let data = webServiceData["items"] as? [Dictionary<String,Any>]{
-                    
-                    
                     self.calendarTasks.removeAll()
                     for dataupdate in data {
                         if let userInfoObj = Mapper<Task>().map(JSONObject: dataupdate) {
@@ -221,15 +254,20 @@ extension TaskViewController{
                         }
                     }
                     compeltion()
-                } else{
+                }else if let error = webServiceData["error"] as? Dictionary<String,Any>{
+                    if error["code"] as? Int == ErrorCode.UnAuthorized.rawValue{ //get unauthorized token
+                        self.getTaskApi()
+                    }
+                }
+                else{
                     self.view.viewEmptyView(bgImage: UIImage.init(named: "calendar") ?? UIImage(), errorMsg: "No Task in the list.")
                 }
             }
         }) { (error) in
-            self.showAlert(withTitle: "App", message: error)
+            
+            self.showAlert(withTitle: appConstants.KAppName.rawValue, message: error)
         }
     }
-    
     func apiCallenderSubTaskSync(index: Int, compeltion: @escaping ()->()) {
         HttpClient.getRequest(urlString: GetApiURL.kGetSubTasks.typeURL(), header: true,loaderEnable: true, successBlock: { (response) in
             
@@ -250,7 +288,7 @@ extension TaskViewController{
                 }
             }
         }) { (error) in
-            self.showAlert(withTitle: "App", message: error)
+            self.showAlert(withTitle: appConstants.KAppName.rawValue, message: error)
         }
     }
 }

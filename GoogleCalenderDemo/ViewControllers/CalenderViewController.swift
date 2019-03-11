@@ -108,7 +108,7 @@ extension CalenderViewController {
             if success{
                 LocalNotificationTrigger.shared.authorized{ (success) in
                     if !success{
-                        self.showOkAndCancelAlert(withTitle: "App", buttonTitle: "Settings", message: "Your Notification not be allowed allow them.", {
+                        self.showOkAndCancelAlert(withTitle: appConstants.KAppName.rawValue, buttonTitle: "Settings", message: "Your Notification not be allowed allow them.", {
                             let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
                             UIApplication.shared.open(settingsUrl)
                         })
@@ -146,10 +146,7 @@ extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
             let userId = user.userID
             print(userId ?? "Not found")
             let token = user.authentication.accessToken
-            UserDefaults.standard.setValue(token, forKey: "token")
-            print(token ?? "")
-            //            let fullName : String = user.profile.name
-            UserDefaults.standard.setValue(token, forKey: userDefaultsConstants.authToken)
+            UserDefaults.standard.setValue(token, forKey: userDefaultsConstants.authMyToken)
             self.performSegue(withIdentifier: "TaskViewController", sender: self)
         } else {
             print("\(error.localizedDescription)")
@@ -179,7 +176,7 @@ extension CalenderViewController : GIDSignInDelegate,GIDSignInUIDelegate {
 extension CalenderViewController{
     func apiCallenderSync(compeltion: @escaping ()->()) {
         
-        HttpClient.getRequest(urlString: GetApiURL.kGetEvents.typeURL(), header: nil,loaderEnable: true, successBlock: { (response) in
+        HttpClient.getRequest(urlString: GetApiURL.kGetEvents.typeURL(),loaderEnable: true, successBlock: { (response) in
             
             if let webServiceData = response as? Dictionary<String,Any>{
                 if let data = webServiceData["items"] as? [Dictionary<String,Any>]{
@@ -193,7 +190,7 @@ extension CalenderViewController{
                 }
             }
         }) { (error) in
-            self.showAlert(withTitle: "App", message: error)
+            self.showAlert(withTitle: appConstants.KAppName.rawValue, message: error)
         }
     }
 }

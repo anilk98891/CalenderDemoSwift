@@ -12,14 +12,16 @@ import Alamofire
 class HttpClient
 {
     static var cookieName = Dictionary<String,String>()
+    static var requiredAuth = false
     
     static var headers: [String:String]
     {
-        var dict = ["":""]
-        
-        if let token = UserDefaults.standard.value(forKey: userDefaultsConstants.authToken) as? String
-        {
-            dict = ["Authorization":"OAuth " + token, "Content-Type": "application/json"]
+        var dict = ["Content-Type": "application/json"]
+        if requiredAuth {
+            if let token = UserDefaults.standard.value(forKey: userDefaultsConstants.authClientAccessToken) as? String
+            {
+                dict["Authorization"] = "OAuth " + token
+            }
         }
         return dict
     }
@@ -34,9 +36,10 @@ class HttpClient
         return dict
     }
     
-    class func getRequest( urlString: String,header : Bool?,loaderEnable : Bool? = true,  successBlock :@escaping (_ response :AnyObject)->Void, errorBlock:@escaping (_ errorMessage :String)->Void
+    class func getRequest( urlString: String,header : Bool? = false,loaderEnable : Bool? = true,  successBlock :@escaping (_ response :AnyObject)->Void, errorBlock:@escaping (_ errorMessage :String)->Void
         )
     {
+        requiredAuth = header ?? false
         print(headers)
         if loaderEnable! {
             DispatchQueue.main.async( execute: {
@@ -46,7 +49,7 @@ class HttpClient
         let url = URL(string: urlString)!
         
         var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = header == nil ? nil : headers
+        request.allHTTPHeaderFields = headers
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, urlResponse, error) in
@@ -93,8 +96,9 @@ class HttpClient
     }
     
     
-    class func postRequest( urlString: String, requestData: [String:Any]?, successBlock: @escaping (_ response: AnyObject)->Void, errorBlock: @escaping (_ errorMessage :String)->Void )
+    class func postRequest( urlString: String, requestData: [String:Any]?,headerRequired: Bool? = false, successBlock: @escaping (_ response: AnyObject)->Void, errorBlock: @escaping (_ errorMessage :String)->Void )
     {
+        requiredAuth = headerRequired ?? false
         DispatchQueue.main.async( execute: {
             Indicator.sharedInstance.showIndicator()
         })
